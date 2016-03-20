@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="dev_data_host">localhost:8083</string>
+    <string name="dev_baidu_host">apis.baidu.com</string>
+
+    <string name="test_data_host">123.456.789.123:6666</string>
+    <string name="test_baidu_host">apis.baidu.com</string>
+
+    <string name="product_data_host">123.456.789.123:6666</string>
+    <string name="product_baidu_host">apis.baidu.com</string>
+</resources>

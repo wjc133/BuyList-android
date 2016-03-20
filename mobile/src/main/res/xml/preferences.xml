@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:key="pref_lab"
+        android:title="@string/pref_lab">
+        <ListPreference
+            android:defaultValue="1"
+            android:dialogTitle="@string/pref_lab"
+            android:entries="@array/pref_lab_types"
+            android:entryValues="@array/pref_lab_type_values"
+            android:key="pref_lab_env"
+            android:title="@string/pref_lab_env" />
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">购物清单</string>
+    <string name="btn_enter_bar">进入</string>
+
+    <string name="navigation_drawer_open">开启导航菜单</string>
+    <string name="navigation_drawer_close">关闭导航菜单</string>
+
+    <string name="navi_kantie">看帖</string>
+    <string name="navi_backgard">后院</string>
+    <string name="navi_setting">设置</string>
+    <string name="navi_about">关于</string>
+    <string name="version">版本号 1.0</string>
+    <string name="app_about_info">购物者福音，特色清单软件</string>
+    <string name="app_author">Elite Group wjc133，mail to：cmsdwjc133@gmail.com</string>
+    <string name="action_settings">设置</string>
+    <string name="pref_lab">实验室</string>
+    <string name="pref_lab_env">环境设置</string>
+
+    <string name="pref_lab_dev">开发环境</string>
+    <string name="pref_lab_test">测试环境</string>
+    <string name="pref_lab_product">生产环境</string>
+
+</resources>
