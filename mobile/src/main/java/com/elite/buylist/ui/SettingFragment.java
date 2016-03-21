@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.elite.buylist.R;
+import com.elite.buylist.common.Env;
+import com.elite.buylist.constant.EnvType;
 
 /**
  * Create by wjc133
@@ -16,6 +18,7 @@ import com.elite.buylist.R;
  */
 public class SettingFragment extends PreferenceFragment implements Preference.OnPreferenceChangeListener {
     ListPreference preference;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,10 +34,10 @@ public class SettingFragment extends PreferenceFragment implements Preference.On
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        Toast.makeText(getActivity(), "设置环境成功", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.toast_env_set_success, Toast.LENGTH_SHORT).show();
         if (preference.getKey().equals("pref_lab_env")) {
-            String value = (String) newValue;
-            EnvHelper.setup(value);
+            Byte value = (Byte) newValue;
+            Env.instance().setEnvType(EnvType.valueOf(value));
             return true;
         }
         return false;

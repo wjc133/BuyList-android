@@ -2,6 +2,7 @@ package com.elite.buylist.common;
 
 
 import com.elite.buylist.R;
+import com.elite.buylist.constant.EnvType;
 import com.elite.core.utils.BasicConfig;
 import com.elite.core.utils.pref.CommonPref;
 
@@ -25,21 +26,21 @@ public class Env {
 
     public void init() {
         if (!isReleaseEnv()) {
-            UriManager.init(getUriSetting(), BasicConfig.INSTANCE.getAppContext());
+            UriManager.init(getEnvType(), BasicConfig.INSTANCE.getAppContext());
         } else {
-            UriManager.init(UriSetting.PRODUCT, BasicConfig.INSTANCE.getAppContext());
+            UriManager.init(EnvType.PRODUCT, BasicConfig.INSTANCE.getAppContext());
         }
     }
 
     /**
      * 设置uri环境
      *
-     * @param uriSetting
+     * @param envType
      */
-    public void setUriSetting(UriSetting uriSetting) {
-        if (uriSetting != null && !isReleaseEnv()) {
-            CommonPref.instance(BasicConfig.INSTANCE.getAppContext()).putInt(PREF_URI_SETTING, uriSetting.ordinal());
-            UriManager.init(uriSetting, BasicConfig.INSTANCE.getAppContext());
+    public void setEnvType(EnvType envType) {
+        if (envType != null && !isReleaseEnv()) {
+            CommonPref.instance(BasicConfig.INSTANCE.getAppContext()).putInt(PREF_URI_SETTING, envType.code());
+            UriManager.init(envType, BasicConfig.INSTANCE.getAppContext());
         }
     }
 
@@ -48,52 +49,44 @@ public class Env {
      *
      * @return
      */
-    public UriSetting getUriSetting() {
+    public EnvType getEnvType() {
         if (isReleaseEnv()) {
-            return UriSetting.PRODUCT;
+            return EnvType.PRODUCT;
         }
 
-        int ordinal = CommonPref.instance(BasicConfig.INSTANCE.getAppContext()).getInt(PREF_URI_SETTING, -1);
-        if (ordinal > -1 && ordinal < UriSetting.values().length) {
-            return UriSetting.values()[ordinal];
+        byte code = (byte) CommonPref.instance(BasicConfig.INSTANCE.getAppContext()).getInt(PREF_URI_SETTING, EnvType.UNKNOWN.code());
+        if (code != EnvType.UNKNOWN.code()) {
+            return EnvType.valueOf(code);
         } else {
-            if (getBuildEnv() == BuildEnv.DEV) {
-                return UriSetting.DEV;
+            if (getBuildEnv() == EnvType.DEV) {
+                return EnvType.DEV;
             }
 
-            return UriSetting.TEST;
+            return EnvType.TEST;
         }
     }
 
     public static boolean isReleaseEnv() {
-        return getBuildEnv() == BuildEnv.PRODUCT;
+        return getBuildEnv() == EnvType.PRODUCT;
     }
 
-    public static BuildEnv getBuildEnv() {
-        BuildEnv env = BuildEnv.PRODUCT;
+    public static EnvType getBuildEnv() {
+        EnvType env = EnvType.PRODUCT;
         String mvnEnv = BasicConfig.INSTANCE.getAppContext().getString(R.string.current_env);
         switch (mvnEnv) {
             case "dev":
-                env = BuildEnv.DEV;
+                env = EnvType.DEV;
                 break;
             case "test":
-                env = BuildEnv.TEST;
+                env = EnvType.TEST;
                 break;
             case "release":
-                env = BuildEnv.PRODUCT;
+                env = EnvType.PRODUCT;
                 break;
             default:
                 break;
         }
 
         return env;
-    }
-
-    public enum UriSetting {
-        DEV, PRODUCT, TEST
-    }
-
-    public enum BuildEnv {
-        DEV, TEST, PRODUCT
     }
 }

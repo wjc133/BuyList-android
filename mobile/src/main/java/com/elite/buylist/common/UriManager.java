@@ -3,6 +3,7 @@ package com.elite.buylist.common;
 import android.content.Context;
 
 import com.elite.buylist.R;
+import com.elite.buylist.constant.EnvType;
 import com.elite.core.UriProvider;
 
 
@@ -14,17 +15,17 @@ import com.elite.core.UriProvider;
 public class UriManager {
     private static Context appContext;
 
-    public static void init(Env.UriSetting uriSetting, Context context) {
-        if (null == uriSetting || null == context) {
+    public static void init(EnvType envType, Context context) {
+        if (null == envType || null == context) {
             return;
         }
 
         appContext = context;
-        if (uriSetting == Env.UriSetting.DEV) {//开发环境地址
+        if (envType == EnvType.DEV) {//开发环境地址
             initDevUri();
-        } else if (uriSetting == Env.UriSetting.PRODUCT) {//生产环境地址
+        } else if (envType == EnvType.PRODUCT) {//生产环境地址
             initProductUri();
-        } else if (uriSetting == Env.UriSetting.TEST) {//测试环境地址
+        } else if (envType == EnvType.TEST) {//测试环境地址
             initTestUri();
         }
     }
