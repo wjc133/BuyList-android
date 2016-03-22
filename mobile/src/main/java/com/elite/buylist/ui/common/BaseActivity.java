@@ -15,6 +15,7 @@ import com.elite.core.loader.callback.FilterDataLoaderCallbackAdapter;
  * Time: 18:45
  */
 public class BaseActivity extends AppCompatActivity implements LoaderController {
+    private boolean needInitLoader = true;
     private SparseArray<FilterDataLoaderCallbackAdapter> mFilterDataLoaderCallbackAdapters = new SparseArray<>();
 
     @SuppressWarnings("unchecked")
@@ -28,7 +29,12 @@ public class BaseActivity extends AppCompatActivity implements LoaderController 
 
     @Override
     public void initLoader(int loaderId, Bundle bundle, FilterDataLoaderCallback callback) {
-        getSupportLoaderManager().initLoader(loaderId, bundle, getFilterDataLoaderCallbackAdapter(loaderId, callback, getSupportLoaderManager()));
+        if (needInitLoader) {
+            getSupportLoaderManager().initLoader(loaderId, bundle, getFilterDataLoaderCallbackAdapter(loaderId, callback, getSupportLoaderManager()));
+            needInitLoader = false;
+        } else {
+            restartLoader(true, loaderId, bundle, callback);
+        }
     }
 
     @Override
