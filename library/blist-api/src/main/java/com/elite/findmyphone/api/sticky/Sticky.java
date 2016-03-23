@@ -9,11 +9,20 @@ import java.util.List;
  * Time: 15:15
  */
 public class Sticky {
+    private String id;
     private Long uid;
     private String title;
     private Date lastModify;
     private String coverUrl;
     private List<Content> messages;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public Long getUid() {
         return uid;
@@ -53,5 +62,17 @@ public class Sticky {
 
     public void setMessages(List<Content> messages) {
         this.messages = messages;
+    }
+
+    @Override
+    public String toString() {
+        return "Sticky{" +
+                "id='" + id + '\'' +
+                ", uid=" + uid +
+                ", title='" + title + '\'' +
+                ", lastModify=" + lastModify +
+                ", coverUrl='" + coverUrl + '\'' +
+                ", messages=" + messages +
+                '}';
     }
 }

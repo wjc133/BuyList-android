@@ -7,6 +7,7 @@ import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Type;
 import java.net.URLEncoder;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
@@ -23,7 +24,7 @@ public enum HttpUtils {
     private static final String DEFAULT_PARAMS_ENCODING = "UTF-8";
     private RequestQueue requestQueue;
 
-    public RequestQueue getRequestQueue() {
+    private RequestQueue getRequestQueue() {
         return requestQueue;
     }
 
@@ -35,8 +36,28 @@ public enum HttpUtils {
         return this.getSync(url, params, null, clazz);
     }
 
+    public <T> T getSync(String url, Map<String, String> params, Type typeOfT) {
+        return this.getSync(url, params, null, typeOfT);
+    }
+
     public <T> T getSync(String url, Map<String, String> params, final Map<String, String> headers, Class<T> clazz) {
-        url = url + encodeParameters(params, DEFAULT_PARAMS_ENCODING);
+        String response = doGet(url, params, headers);
+        if (response != null) {
+            return JsonUtils.getGson().fromJson(response, clazz);
+        }
+        return null;
+    }
+
+    public <T> T getSync(String url, Map<String, String> params, Map<String, String> headers, Type typeOfT) {
+        String response = doGet(url, params, headers);
+        if (response != null) {
+            return JsonUtils.getGson().fromJson(response, typeOfT);
+        }
+        return null;
+    }
+
+    private String doGet(String url, Map<String, String> params, final Map<String, String> headers) {
+        url = url + "?" + encodeParameters(params, DEFAULT_PARAMS_ENCODING);
         RequestFuture<String> future = RequestFuture.newFuture();
         StringRequest request = new StringRequest(Request.Method.GET, url, future, future) {
             @Override
@@ -47,21 +68,104 @@ public enum HttpUtils {
                 return headers;
             }
         };
-        HttpUtils.INSTANCE.getRequestQueue().add(request);
+        getRequestQueue().add(request);
         try {
-            String response = future.get();
-            JsonUtils.getGson().fromJson(response, clazz);
+            return future.get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public <T> T postSync(String url, Map<String, String> params, final Map<String, String> headers) {
-        return this.postSync(url, params, headers, false);
+    public <T> T postSync(String url, Map<String, String> params, boolean isJson, Class<T> clazz) {
+        return this.postSync(url, params, null, isJson, clazz);
     }
 
-    public <T> T postSync(String url, Map<String, String> params, final Map<String, String> headers, boolean isJson) {
+    public <T> T postSync(String url, Map<String, String> params, Map<String, String> headers, Class<T> clazz) {
+        return this.postSync(url, params, headers, false, clazz);
+    }
+
+    public <T> T postSync(String url, Map<String, String> params, final Map<String, String> headers, boolean isJson, Class<T> clazz) {
+        String response;
+        if (isJson) {
+            response = doPostWithJsonBody(url, params, headers);
+        } else {
+            response = doPost(url, params, headers);
+        }
+        if (response != null) {
+            return JsonUtils.getGson().fromJson(response, clazz);
+        }
+        return null;
+    }
+
+    public <T> T postSync(String url, Map<String, String> params, boolean isJson, Type typeOfT) {
+        return this.postSync(url, params, null, isJson, typeOfT);
+    }
+
+    public <T> T postSync(String url, Map<String, String> params, Map<String, String> headers, Type typeOfT) {
+        return this.postSync(url, params, headers, false, typeOfT);
+    }
+
+    public <T> T postSync(String url, Map<String, String> params, Map<String, String> headers, boolean isJson, Type typeOfT) {
+        String response;
+        if (isJson) {
+            response = doPostWithJsonBody(url, params, headers);
+        } else {
+            response = doPost(url, params, headers);
+        }
+        if (response != null) {
+            return JsonUtils.getGson().fromJson(response, typeOfT);
+        }
+        return null;
+    }
+
+    private String doPostWithJsonBody(String url, final Map<String, String> params, final Map<String, String> headers) {
+        RequestFuture<String> future = RequestFuture.newFuture();
+        StringRequest request = new StringRequest(Request.Method.POST, url, future, future) {
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                String json = JsonUtils.getGson().toJson(params);
+                try {
+                    return json.getBytes(DEFAULT_PARAMS_ENCODING);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                return super.getBody();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return headers;
+            }
+        };
+        getRequestQueue().add(request);
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String doPost(String url, final Map<String, String> params, final Map<String, String> headers) {
+        RequestFuture<String> future = RequestFuture.newFuture();
+        StringRequest request = new StringRequest(Request.Method.POST, url, future, future) {
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                return params;
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                return headers;
+            }
+        };
+        getRequestQueue().add(request);
+        try {
+            return future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
         return null;
     }
 

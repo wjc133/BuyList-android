@@ -1,6 +1,7 @@
 package com.elite.core.sticky.api;
 
 import com.elite.core.ApiCore;
+import com.elite.core.UriProvider;
 import com.elite.findmyphone.api.sticky.Sticky;
 import com.elite.findmyphone.api.sticky.StickyCommand;
 
@@ -15,6 +16,7 @@ import java.util.List;
 public class StickyCoreImpl extends ApiCore implements StickyCore {
     @Override
     public Sticky store(StickyCommand stickyCommand) {
+        String url = UriProvider.LIST_STICKY_SAVE;
         return null;
     }
 
