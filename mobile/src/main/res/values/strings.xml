@@ -21,5 +21,7 @@
     <string name="pref_lab_product">生产环境</string>
 
     <string name="toast_env_set_success">设置环境成功</string>
+    <string name="hint_create_sticky_title">请输入标题</string>
+    <string name="hint_create_sticky_content">请输入内容</string>
 
 </resources>

@@ -23,6 +23,7 @@ public abstract class BaseFragment extends Fragment implements LoaderController 
     private View mContentView;
     private SparseArray<FilterDataLoaderCallbackAdapter> mFilterDataLoaderCallbackAdapters = new SparseArray<>();
 
+    @SuppressWarnings("unchecked")
     private FilterDataLoaderCallbackAdapter getFilterDataLoaderCallbackAdapter(int loaderId, FilterDataLoaderCallback callback, LoaderManager manager) {
         if (mFilterDataLoaderCallbackAdapters.indexOfKey(loaderId) < 0) {
             mFilterDataLoaderCallbackAdapters.put(loaderId, new FilterDataLoaderCallbackAdapter<>(callback, manager));

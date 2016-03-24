@@ -1,7 +1,11 @@
 package com.elite.buylist.ui.sticky;
 
+import android.support.design.widget.FloatingActionButton;
+import android.view.View;
+
 import com.elite.buylist.R;
 import com.elite.buylist.ui.common.BaseFragment;
+import com.elite.buylist.utils.NavigationUtils;
 
 /**
  * Create by wjc133
@@ -9,6 +13,7 @@ import com.elite.buylist.ui.common.BaseFragment;
  * Time: 11:01
  */
 public class StickyFragment extends BaseFragment {
+    private FloatingActionButton fab;
 
     @Override
     protected void initData() {
@@ -17,12 +22,17 @@ public class StickyFragment extends BaseFragment {
 
     @Override
     protected void configView() {
-
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NavigationUtils.toCreateStickyActivity(getActivity());
+            }
+        });
     }
 
     @Override
     protected void findView() {
-
+        fab = (FloatingActionButton) findViewById(R.id.fab);
     }
 
     @Override
