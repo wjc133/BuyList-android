@@ -13,7 +13,7 @@ import java.util.List;
  * Description:
  */
 public interface StickyCore extends BaseCore {
-    Sticky store(StickyCommand stickyCommand);
+    Sticky storeSticky(StickyCommand stickyCommand);
 
     List<Sticky> getStickys(String ticket, Integer limit, Integer offset);
 }

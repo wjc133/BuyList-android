@@ -98,6 +98,14 @@ public enum HttpUtils {
         return null;
     }
 
+    public <T> T postSync(String url, Object body, Class<T> clazz) {
+        String response = doPostWithJsonBody(url, body, null);
+        if (response != null) {
+            return JsonUtils.getGson().fromJson(response, clazz);
+        }
+        return null;
+    }
+
     public <T> T postSync(String url, Map<String, String> params, boolean isJson, Type typeOfT) {
         return this.postSync(url, params, null, isJson, typeOfT);
     }
@@ -119,12 +127,12 @@ public enum HttpUtils {
         return null;
     }
 
-    private String doPostWithJsonBody(String url, final Map<String, String> params, final Map<String, String> headers) {
+    private String doPostWithJsonBody(String url, final Object body, final Map<String, String> headers) {
         RequestFuture<String> future = RequestFuture.newFuture();
         StringRequest request = new StringRequest(Request.Method.POST, url, future, future) {
             @Override
             public byte[] getBody() throws AuthFailureError {
-                String json = JsonUtils.getGson().toJson(params);
+                String json = JsonUtils.getGson().toJson(body);
                 try {
                     return json.getBytes(DEFAULT_PARAMS_ENCODING);
                 } catch (UnsupportedEncodingException e) {

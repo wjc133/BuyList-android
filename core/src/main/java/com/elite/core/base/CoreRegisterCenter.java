@@ -1,7 +1,7 @@
 package com.elite.core.base;
 
-import com.elite.core.weather.api.WeatherCore;
-import com.elite.core.weather.api.WeatherCoreImpl;
+import com.elite.core.sticky.api.StickyCore;
+import com.elite.core.sticky.api.StickyCoreImpl;
 
 /**
  * Create by wjc133
@@ -10,8 +10,8 @@ import com.elite.core.weather.api.WeatherCoreImpl;
  */
 public class CoreRegisterCenter {
     public static void registerCore() {
-        if (!CoreFactory.hasRegisteredCoreClass(WeatherCore.class)) {
-            CoreFactory.registerCoreClass(WeatherCore.class, WeatherCoreImpl.class);
+        if (!CoreFactory.hasRegisteredCoreClass(StickyCore.class)) {
+            CoreFactory.registerCoreClass(StickyCore.class, StickyCoreImpl.class);
         }
     }
 }

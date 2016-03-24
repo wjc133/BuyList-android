@@ -8,9 +8,9 @@ package com.elite.core;
 public class UriProvider {
     private static final String PROTOCOL_HEADER_HTTP = "http://";
     private static final String PROTOCOL_HEADER_HTTPS = "https://";
-    public static String LIST_STICKY_SAVE;    //请求更新接口
-    public static String LIST_STICKY_GET;   //获取命令接口
-    public static String LIST_STICKY_UPDATE;   //上传位置接口
+    private static String LIST_STICKY_SAVE;    //请求更新接口
+    private static String LIST_STICKY_GET;   //获取命令接口
+    private static String LIST_STICKY_UPDATE;   //上传位置接口
     //for test
     public static String WEATHER_GET;
     public static String CITY_INFO_GET;
@@ -35,7 +35,15 @@ public class UriProvider {
         WEATHER_GET = BAIDU_HOST + "/apistore/weatherservice/cityname";
     }
 
-    public static String getListStickyUpdate(long uid, String stickyId) {
+    public static String getStickyUpdateUrl(long uid, String stickyId) {
         return String.format(LIST_STICKY_UPDATE, uid, stickyId);
+    }
+
+    public static String getStickySaveUrl() {
+        return LIST_STICKY_SAVE;
+    }
+
+    public static String getStickyGetUrl() {
+        return LIST_STICKY_GET;
     }
 }

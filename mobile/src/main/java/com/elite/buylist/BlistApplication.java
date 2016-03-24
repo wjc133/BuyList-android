@@ -5,6 +5,7 @@ import android.app.Application;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.elite.buylist.common.Env;
+import com.elite.core.base.CoreRegisterCenter;
 import com.elite.core.utils.BasicConfig;
 import com.elite.core.utils.HttpUtils;
 
@@ -21,5 +22,7 @@ public class BlistApplication extends Application {
         BasicConfig.INSTANCE.setAppContext(getApplicationContext());
         HttpUtils.INSTANCE.setRequestQueue(requestQueue);
         Env.instance().init();
+
+        CoreRegisterCenter.registerCore();
     }
 }
