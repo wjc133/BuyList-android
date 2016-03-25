@@ -17,6 +17,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    dexOptions {
+        incremental true
+        jumboMode = true
+    }
 }
 
 dependencies {
@@ -25,6 +29,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':3rd:PreferenceFragment')
     compile project(':core')
-    compile 'com.android.support:appcompat-v7:23.1.1'
-    compile 'com.android.support:design:23.1.1'
+    compile 'com.android.support:appcompat-v7:23.2.1'
+    compile 'com.android.support:design:23.2.1'
 }
